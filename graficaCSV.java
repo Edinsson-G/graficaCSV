@@ -26,10 +26,18 @@ public class graficaCSV {
                 //navegar para seleccionar un archivo
                 navegador.showOpenDialog(navegador);
                 //carguar archivo csv
-                try{
-                    System.out.println("hola mundo");
-                }catch(Exception i){
-                    System.out.println("hola mundo");
+                if(navegador.getSelectedFile()!=null)
+                {
+                    try{
+                        csv canvas=new csv(navegador.getSelectedFile().getAbsolutePath());
+                        //si la carga es exitosa cerrar la ventana de bienvenida
+                        ventIinicial.setVisible(false);
+                        ventIinicial.dispose();
+                        //abrir la ventana final
+                        System.out.println("hola mundo");
+                    }catch(Exception i){
+                        JOptionPane.showMessageDialog(null,"Nombre del error: "+i.getClass().getSimpleName(),"No se pudo leer el archivo",JOptionPane.ERROR_MESSAGE);
+                    }
                 }
             }
         );
@@ -38,5 +46,8 @@ public class graficaCSV {
         ventIinicial.getContentPane().add(BorderLayout.CENTER,mensajeBienvenida);
         ventIinicial.getContentPane().add(BorderLayout.SOUTH,carguador);
         ventIinicial.setVisible(true);
+    }
+    private static void VentFinal(csv primerCSV){
+        
     }
 }

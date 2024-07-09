@@ -1,13 +1,15 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.StringTokenizer;
 public class csv {
     private String alto;
     private String ancho;
     private List<figura> figuras;
-    public csv(String ruta){
+    public csv(String ruta)throws FileNotFoundException,IOException{
         //contenido del archivo csv
         BufferedReader contenido=new BufferedReader(new FileReader(ruta));
         //leer el primer renglon para obtener el alto y ancho de la ventana
@@ -22,6 +24,7 @@ public class csv {
         float x2;
         float y2;
         String tipo;
+        this.figuras=new ArrayList<>();
         while((linea=contenido.readLine())!=null){
             valores=new StringTokenizer(linea,";");
             tipo=valores.nextToken();
@@ -29,7 +32,8 @@ public class csv {
             y1=Float.parseFloat(valores.nextToken());
             x2=Float.parseFloat(valores.nextToken());
             y2=Float.parseFloat(valores.nextToken());
-            figuras.add(new figura(x1, y1, x2, y2, tipo));
+            this.figuras.add(new figura(x1, y1, x2, y2, tipo));
         }
+        contenido.close();
     }
 }

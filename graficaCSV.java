@@ -1,7 +1,7 @@
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
-
 import java.awt.*;
+import java.io.FileReader;
 //clase que implementa la interfaz gŕafica
 public class graficaCSV {
     public static void main(String[] args){
@@ -27,7 +27,7 @@ public class graficaCSV {
                 navegador.showOpenDialog(navegador);
                 //carguar archivo csv
                 try{
-                    f
+                    System.out.println("hola mundo");
                 }catch(Exception i){
                     System.out.println("hola mundo");
                 }

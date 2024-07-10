@@ -32,7 +32,8 @@ public class graficaCSV{
                         csv pinturas=new csv(navegador.getSelectedFile().getAbsolutePath());
                         lienzo.getContentPane().add(BorderLayout.CENTER,pinturas);
                         lienzo.setSize(pinturas.ancho(),pinturas.alto());
-                        lienzo.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                        lienzo.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                        lienzo.setResizable(false);
                         lienzo.setVisible(true);
                         //si la carga es exitosa cerrar la ventana de bienvenida
                         //ventIinicial.setVisible(false);

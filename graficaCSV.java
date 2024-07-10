@@ -2,12 +2,12 @@ import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 //clase que implementa la interfaz gŕafica
-public class graficaCSV {
+public class graficaCSV{
+    //canvas en el que trazará el dibujo
+    //panel en el que mostrara en formato de tabla el resumen del csv
+    private JPanel tabla;
+    //csv actual 
     public static void main(String[] args){
-        Bienvenida();
-    }
-    //metodo que implementa la ventana que le da la bienvenida al usuario y le permite seleccionar el primer archivo CSV. Después que esto ocurre se cierra y abre la ventana completa del programa
-    private static void Bienvenida(){
         JFrame ventIinicial=new JFrame("GraficaCSV+");
         ventIinicial.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         ventIinicial.setSize(400,300);
@@ -28,10 +28,15 @@ public class graficaCSV {
                 if(navegador.getSelectedFile()!=null)
                 {
                     try{
-                        new csv(navegador.getSelectedFile().getAbsolutePath());
+                        JFrame lienzo=new JFrame();
+                        csv pinturas=new csv(navegador.getSelectedFile().getAbsolutePath());
+                        lienzo.getContentPane().add(BorderLayout.CENTER,pinturas);
+                        lienzo.setSize(pinturas.ancho(),pinturas.alto());
+                        lienzo.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                        lienzo.setVisible(true);
                         //si la carga es exitosa cerrar la ventana de bienvenida
-                        ventIinicial.setVisible(false);
-                        ventIinicial.dispose();
+                        //ventIinicial.setVisible(false);
+                        //ventIinicial.dispose();
                     }catch(Exception i){
                         JOptionPane.showMessageDialog(null,"Nombre del error: "+i.getClass().getSimpleName(),"No se pudo leer el archivo",JOptionPane.ERROR_MESSAGE);
                     }
@@ -39,32 +44,11 @@ public class graficaCSV {
             }
         );
         //agregar componentes a la ventana y hacer visible
-        ventIinicial.getContentPane().add(BorderLayout.CENTER,mensajeBienvenida);
+        ventIinicial.getContentPane().add(BorderLayout.LINE_END,mensajeBienvenida);
         ventIinicial.getContentPane().add(BorderLayout.SOUTH,carguador);
+        
         ventIinicial.setVisible(true);
+            
+        
     }
-    /*
-    private static void VentFinal(){
-        JFrame ventana=new JFrame("GrafcaCSV+");
-        ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        ventana.setSize(CSV.ancho(),CSV.alto()+200);
-
-        JPanel botones=new JPanel();
-        //boton para graficar un nuevo csv
-        JButton nuevo=new JButton("Nuevo");
-        //boton para guardar el trabajo realizado
-        JButton guardar=new JButton("Guardar");
-        //agreguar botones al JPanel
-        botones.add(nuevo);
-        botones.add(guardar);
-        //area de dibujo
-        //...
-        ventana.getContentPane().add(BorderLayout.SOUTH,botones);
-        ventana.setVisible(true);
-    }
-    */
-    // @Override
-    // public void paint(Graphics g){
-    //     super.paint(g);
-    // }
 }

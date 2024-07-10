@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.StringTokenizer;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-public class csv extends JFrame{
+public class csv extends JPanel{
     private int alto;
     private int ancho;
     private List<figura> figuras;
@@ -41,13 +41,13 @@ public class csv extends JFrame{
             x2=Integer.parseInt(valores.nextToken().replaceAll(" ", ""));
             y2=Integer.parseInt(valores.nextToken().replaceAll(" ", ""));
             this.figuras.add(new figura(x1, y1, x2, y2, tipo));
-            
         }
         contenido.close();
         //crear la ventana
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(this.ancho,this.alto+100);
-        setVisible(true);
+        //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(this.ancho,this.alto);
+        //setUndecorated(true);
+        //setVisible(true);
     }
     public int alto(){
         return this.alto;
@@ -56,8 +56,8 @@ public class csv extends JFrame{
         return this.ancho;
     }
     @Override
-    public void paint(Graphics g){
-        super.paint(g);
+    public void paintComponent(Graphics g){
+        super.paintComponent(g);
         //dibujar las figuras
         for(figura poligono:this.figuras){
             dibujar(poligono.x1(), poligono.y1(),poligono.x2(), poligono.y2(),poligono.tipo(), poligono.color(), g);
@@ -65,8 +65,6 @@ public class csv extends JFrame{
     }
     private void dibujar(int x1,int y1,int x2,int y2,String tipo,Color color,Graphics g){
         g.setColor(color);
-        y1=y1+100;
-        y2=y2+100;
         if(tipo.equals("Rectangle"))
         {
             g.fillRect(x1,y1,x2-x1,y2-y1);

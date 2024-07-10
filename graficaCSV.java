@@ -1,7 +1,6 @@
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
-import java.io.FileReader;
 //clase que implementa la interfaz gŕafica
 public class graficaCSV {
     public static void main(String[] args){
@@ -20,7 +19,7 @@ public class graficaCSV {
         carguador.addActionListener(
             e -> {
                 //objeto para naveguar entre ficheros
-                JFileChooser navegador=new JFileChooser();
+                JFileChooser navegador=new JFileChooser(".");
                 //solo permitirá seleccionar archivos CSV
                 navegador.setFileFilter(new FileNameExtensionFilter("Archivos CSV", "csv"));
                 //navegar para seleccionar un archivo
@@ -29,25 +28,43 @@ public class graficaCSV {
                 if(navegador.getSelectedFile()!=null)
                 {
                     try{
-                        csv canvas=new csv(navegador.getSelectedFile().getAbsolutePath());
+                        new csv(navegador.getSelectedFile().getAbsolutePath());
                         //si la carga es exitosa cerrar la ventana de bienvenida
                         ventIinicial.setVisible(false);
                         ventIinicial.dispose();
-                        //abrir la ventana final
-                        System.out.println("hola mundo");
                     }catch(Exception i){
                         JOptionPane.showMessageDialog(null,"Nombre del error: "+i.getClass().getSimpleName(),"No se pudo leer el archivo",JOptionPane.ERROR_MESSAGE);
                     }
                 }
             }
         );
-
         //agregar componentes a la ventana y hacer visible
         ventIinicial.getContentPane().add(BorderLayout.CENTER,mensajeBienvenida);
         ventIinicial.getContentPane().add(BorderLayout.SOUTH,carguador);
         ventIinicial.setVisible(true);
     }
-    private static void VentFinal(csv primerCSV){
-        
+    /*
+    private static void VentFinal(){
+        JFrame ventana=new JFrame("GrafcaCSV+");
+        ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        ventana.setSize(CSV.ancho(),CSV.alto()+200);
+
+        JPanel botones=new JPanel();
+        //boton para graficar un nuevo csv
+        JButton nuevo=new JButton("Nuevo");
+        //boton para guardar el trabajo realizado
+        JButton guardar=new JButton("Guardar");
+        //agreguar botones al JPanel
+        botones.add(nuevo);
+        botones.add(guardar);
+        //area de dibujo
+        //...
+        ventana.getContentPane().add(BorderLayout.SOUTH,botones);
+        ventana.setVisible(true);
     }
+    */
+    // @Override
+    // public void paint(Graphics g){
+    //     super.paint(g);
+    // }
 }

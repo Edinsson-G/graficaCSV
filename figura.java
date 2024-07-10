@@ -1,33 +1,38 @@
+import java.awt.Color;
 public class figura {
-    private float x1;
-    private float y1;
-    private float x2;
-    private float y2;
-    private String color;
+    private int x1;
+    private int y1;
+    private int x2;
+    private int y2;
+    private Color color;
     private String tipo;
-    public figura(float x1,float y1,float x2,float y2,String tipo){
+    public figura(int x1,int y1,int x2,int y2,String tipo){
         this.x1=x1;
         this.y1=y1;
         this.x2=x2;
         this.y2=y2;
-        this.color="blue";
+        this.color=Color.red;
         this.tipo=tipo;
     }
     //métodos que retornan los parametros de la clase
-    public float x1(){
+    public int x1(){
         return this.x1;
     }
-    public float y1(){
+    public int y1(){
         return this.y1;
     }
-    public float x2(){
+    public int x2(){
         return this.x2;
     }
-    public float y2(){
+    public int y2(){
         return this.y2;
     }
+    public String tipo(){
+        return this.tipo;
+    }
+    public Color color(){return this.color;}
     //cambiar color
-    public void repintar(String color){
+    public void repintar(Color color){
         this.color=color;
     }
 }

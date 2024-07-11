@@ -35,7 +35,6 @@ public class csv extends JPanel{
         while((linea=contenido.readLine())!=null){
             valores=new StringTokenizer(linea,";");
             tipo=valores.nextToken();
-            //System.out.println(valores.nextToken());
             x1=Integer.parseInt(valores.nextToken().replaceAll(" ", ""));//se convierte de cadena a entero
             y1=Integer.parseInt(valores.nextToken().replaceAll(" ", ""));
             x2=Integer.parseInt(valores.nextToken().replaceAll(" ", ""));
@@ -43,11 +42,7 @@ public class csv extends JPanel{
             this.figuras.add(new figura(x1, y1, x2, y2, tipo));
         }
         contenido.close();
-        //crear la ventana
-        //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(this.ancho,this.alto);
-        //setUndecorated(true);
-        //setVisible(true);
     }
     public int alto(){
         return this.alto;

@@ -3,6 +3,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
 import java.awt.*;
+import java.util.stream.IntStream;
 //clase que implementa la interfaz gŕafica
 public class graficaCSV{
     //objeto con la informacion del csv procesada
@@ -55,11 +56,21 @@ public class graficaCSV{
                             contenido[i][1]=figActual.tipo();
                             contenido[i][2]="("+figActual.x1()+","+figActual.y1()+")";
                             contenido[i][3]="("+figActual.x2()+","+figActual.y2()+")";
-                            contenido[i][4]=figActual.color().toString();
+                            //la columna de color no tiene texto, solo color de fondo
+                            contenido[i][4]="   ";
                         }
-                        
                         //crear tabla
                         tabla=new JTable(new DefaultTableModel(contenido,encabezado));
+                        //colorear la ultima columna
+                        tabla.getColumnModel().getColumn(4).setCellRenderer(
+                            new DisenoCelda(
+                                pinturas.figuras().get(0).color(),
+                                IntStream.rangeClosed(0,pinturas.figuras().size()-1).toArray()
+                            )
+                        );
+                        
+                        //agregar la funcion de sel
+                        //evitar que se edite por medio de mouse o teclado
                         tabla.setDefaultEditor(Object.class, null);
                         JScrollPane scroll=new JScrollPane(tabla);
                         ventIinicial.getContentPane().add(BorderLayout.SOUTH,scroll);

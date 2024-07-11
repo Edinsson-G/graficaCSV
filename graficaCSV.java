@@ -1,13 +1,17 @@
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.DefaultTableModel;
+
 import java.awt.*;
 //clase que implementa la interfaz gŕafica
 public class graficaCSV{
+    //objeto con la informacion del csv procesada
     public static csv pinturas;
+    public static JTable tabla;
     public static void main(String[] args){
         JFrame ventIinicial=new JFrame("GraficaCSV+");
         ventIinicial.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        ventIinicial.setSize(400,300);
+        ventIinicial.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
         //texto de bienvenida
         JLabel mensajeBienvenida= new JLabel("<html>Bienvenido a graficaCSV+, para pintar carga un archivo CSV.</html>",SwingConstants.CENTER);
@@ -34,6 +38,33 @@ public class graficaCSV{
                         pinturas=new csv(navegador.getSelectedFile().getAbsolutePath());
                         pintar.setEnabled(true);
                         mensajeBienvenida.setText("se ha cargado "+navegador.getSelectedFile().getAbsolutePath());
+                        
+                        //llenar una tabla con los datos de la pintura
+                        String[] encabezado={
+                            "#",
+                            "Tipo",
+                            "<html>(x<sub>1</sub>,y<sub>1</sub>)</html>",
+                            "<html>(x<sub>2</sub>,y<sub>2</sub>)</html>",
+                            "Color"
+                        };
+                        
+                        String [][] contenido=new String[pinturas.figuras().size()][encabezado.length];
+                        for(int i=0;i<pinturas.figuras().size();i++){
+                            figura figActual=pinturas.figuras().get(i);
+                            contenido[i][0]=Integer.toString(i);
+                            contenido[i][1]=figActual.tipo();
+                            contenido[i][2]="("+figActual.x1()+","+figActual.y1()+")";
+                            contenido[i][3]="("+figActual.x2()+","+figActual.y2()+")";
+                            contenido[i][4]=figActual.color().toString();
+                        }
+                        
+                        //crear tabla
+                        tabla=new JTable(new DefaultTableModel(contenido,encabezado));
+                        tabla.setDefaultEditor(Object.class, null);
+                        JScrollPane scroll=new JScrollPane(tabla);
+                        ventIinicial.getContentPane().add(BorderLayout.SOUTH,scroll);
+                        ventIinicial.revalidate();
+                        ventIinicial.repaint();
                     }catch(Exception i){
                         JOptionPane.showMessageDialog(null,"Nombre del error: "+i.getClass().getSimpleName(),"No se pudo leer el archivo",JOptionPane.ERROR_MESSAGE);
                     }

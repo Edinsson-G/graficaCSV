@@ -55,6 +55,9 @@ public class csv extends JPanel{
     public int ancho(){
         return this.ancho;
     }
+    public List<figura> figuras(){
+        return this.figuras;
+    }
     @Override
     public void paintComponent(Graphics g){
         super.paintComponent(g);

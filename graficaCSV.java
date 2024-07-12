@@ -4,6 +4,8 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.event.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.IntStream;
 //clase que implementa la interfaz gŕafica
 public class graficaCSV{
@@ -63,11 +65,14 @@ public class graficaCSV{
                         //crear tabla
                         tabla=new JTable(new DefaultTableModel(contenido,encabezado));
                         //colorear la ultima columna
+                        // tabla.getColumnModel().getColumn(4).setCellRenderer(
+                        //     new DisenoCelda(
+                        //         pinturas.figuras().get(0).color(),
+                        //         IntStream.rangeClosed(0,pinturas.figuras().size()-1).toArray()
+                        //     )
+                        // );
                         tabla.getColumnModel().getColumn(4).setCellRenderer(
-                            new DisenoCelda(
-                                pinturas.figuras().get(0).color(),
-                                IntStream.rangeClosed(0,pinturas.figuras().size()-1).toArray()
-                            )
+                            new DisenoCelda(colores())
                         );
                         
                         //agregar la funcion de cambiar color
@@ -96,14 +101,17 @@ public class graficaCSV{
                                                 
                                                 pinturas.figuras().get(temp.getSelectedRow()).repintar(paleta.getColor());
                                                 //repintar la casilla correspondiente de la tabla
-                                                int[]fila={temp.getSelectedRow()};
-                                                System.out.println(fila[0]);
                                                 tabla.getColumnModel().getColumn(4).setCellRenderer(
-                                                    new DisenoCelda(
-                                                        paleta.getColor(),
-                                                        fila
-                                                    )
+                                                    new DisenoCelda(colores())
                                                 );
+                                                // int[]fila={temp.getSelectedRow()};
+                                                // System.out.println(fila[0]);
+                                                // tabla.getColumnModel().getColumn(4).setCellRenderer(
+                                                //     new DisenoCelda(
+                                                //         paleta.getColor(),
+                                                //         fila
+                                                //     )
+                                                // );
                                             }
                                         }
                                     }
@@ -147,5 +155,12 @@ public class graficaCSV{
         ventIinicial.getContentPane().add(BorderLayout.NORTH,mensajeBienvenida);
         ventIinicial.getContentPane().add(BorderLayout.CENTER,botones);
         ventIinicial.setVisible(true);
+    }
+    private static List<Color> colores(){
+        List<Color> colores=new ArrayList<>();
+        for(figura figActual:pinturas.figuras()){
+            colores.add(figActual.color());
+        }
+        return colores;
     }
 }

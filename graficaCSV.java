@@ -1,8 +1,9 @@
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
-
+import java.awt.event.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
 import java.util.stream.IntStream;
 //clase que implementa la interfaz gŕafica
 public class graficaCSV{
@@ -52,7 +53,7 @@ public class graficaCSV{
                         String [][] contenido=new String[pinturas.figuras().size()][encabezado.length];
                         for(int i=0;i<pinturas.figuras().size();i++){
                             figura figActual=pinturas.figuras().get(i);
-                            contenido[i][0]=Integer.toString(i);
+                            contenido[i][0]=Integer.toString(i+1);
                             contenido[i][1]=figActual.tipo();
                             contenido[i][2]="("+figActual.x1()+","+figActual.y1()+")";
                             contenido[i][3]="("+figActual.x2()+","+figActual.y2()+")";
@@ -69,7 +70,47 @@ public class graficaCSV{
                             )
                         );
                         
-                        //agregar la funcion de sel
+                        //agregar la funcion de cambiar color
+                        tabla.addMouseListener(
+                            new MouseAdapter() {
+                                @Override
+                                public void mouseClicked(MouseEvent e){
+                                    //validar que se haya hecho exactamente un clic
+                                    if(e.getClickCount()==1){
+                                        JTable temp=(JTable)e.getSource();
+                                        if(temp.getSelectedColumn()==4){
+                                            //la seleccion fue en la columna del color (4)
+
+                                            //paleta de colores flotante
+                                            JColorChooser paleta=new JColorChooser();
+                                            //variable que nos idica si realmente se selecciono un color
+                                            int resultado=JOptionPane.showConfirmDialog(
+                                                null,
+                                                paleta,
+                                                "cambiar color de lafigura "+temp.getSelectedRow()+1,
+                                                JOptionPane.OK_CANCEL_OPTION,
+                                                JOptionPane.PLAIN_MESSAGE
+                                            );
+                                            if(resultado==JOptionPane.OK_OPTION){
+                                                //el usuario realmente selecciono un color
+                                                
+                                                pinturas.figuras().get(temp.getSelectedRow()).repintar(paleta.getColor());
+                                                //repintar la casilla correspondiente de la tabla
+                                                int[]fila={temp.getSelectedRow()};
+                                                System.out.println(fila[0]);
+                                                tabla.getColumnModel().getColumn(4).setCellRenderer(
+                                                    new DisenoCelda(
+                                                        paleta.getColor(),
+                                                        fila
+                                                    )
+                                                );
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        );
+
                         //evitar que se edite por medio de mouse o teclado
                         tabla.setDefaultEditor(Object.class, null);
                         JScrollPane scroll=new JScrollPane(tabla);

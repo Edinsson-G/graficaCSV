@@ -21,9 +21,10 @@ public class DisenoCelda extends DefaultTableCellRenderer{
         //System.out.println("aqui llego como"+this.fila);
         if(Arrays.stream(this.fila).anyMatch(num -> num==row)&&4==column){
             setBackground(this.color);
-        }else{
-            setBackground(table.getBackground());
         }
+        // else{
+        //     setBackground(table.getBackground());
+        // }
         return this;
     }
 }

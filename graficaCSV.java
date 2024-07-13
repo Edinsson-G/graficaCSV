@@ -6,17 +6,15 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.IntStream;
 //clase que implementa la interfaz gŕafica
 public class graficaCSV{
     //objeto con la informacion del csv procesada
-    public static csv pinturas;
-    public static JTable tabla;
+    private static csv pinturas;
+    private static JTable tabla;
     public static void main(String[] args){
         JFrame ventIinicial=new JFrame("GraficaCSV+");
         ventIinicial.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         ventIinicial.setExtendedState(JFrame.MAXIMIZED_BOTH);
-
         //texto de bienvenida
         JLabel mensajeBienvenida= new JLabel("<html>Bienvenido a graficaCSV+, para pintar carga un archivo CSV.</html>",SwingConstants.CENTER);
 
@@ -64,13 +62,6 @@ public class graficaCSV{
                         }
                         //crear tabla
                         tabla=new JTable(new DefaultTableModel(contenido,encabezado));
-                        //colorear la ultima columna
-                        // tabla.getColumnModel().getColumn(4).setCellRenderer(
-                        //     new DisenoCelda(
-                        //         pinturas.figuras().get(0).color(),
-                        //         IntStream.rangeClosed(0,pinturas.figuras().size()-1).toArray()
-                        //     )
-                        // );
                         tabla.getColumnModel().getColumn(4).setCellRenderer(
                             new DisenoCelda(colores())
                         );
@@ -104,14 +95,6 @@ public class graficaCSV{
                                                 tabla.getColumnModel().getColumn(4).setCellRenderer(
                                                     new DisenoCelda(colores())
                                                 );
-                                                // int[]fila={temp.getSelectedRow()};
-                                                // System.out.println(fila[0]);
-                                                // tabla.getColumnModel().getColumn(4).setCellRenderer(
-                                                //     new DisenoCelda(
-                                                //         paleta.getColor(),
-                                                //         fila
-                                                //     )
-                                                // );
                                             }
                                         }
                                     }
@@ -134,12 +117,27 @@ public class graficaCSV{
         pintar.addActionListener(
             e -> {
                 if(pinturas!=null){
+                    /* 
                     JFrame lienzo=new JFrame();
                     lienzo.getContentPane().add(BorderLayout.CENTER,pinturas);
+                    //se le suma al tamano de la ventana el espacio que ocupa la barra de titulo
                     lienzo.setSize(pinturas.ancho(),pinturas.alto());
+                    lienzo.setUndecorated(true);
                     lienzo.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                     lienzo.setResizable(false);
-                    lienzo.setVisible(true);
+                    */
+                    //agregar movilidad a la ventana
+                    // lienzo.addMouseListener(
+                    //     //detectar evento de raton de arrastre
+                    //     new MouseAdapter() {
+                    //         public void mousePressed(MouseEvent e){
+                    //             mouseX=e.getX();
+                    //             mouseY=e.getY();
+                    //         }
+                    //     }
+                    // );
+                    // lienzo.setVisible(true);
+                    new lienzo(pinturas);
                 }else{
                     JOptionPane.showMessageDialog(null,"Error inesperado, no se encontró ningún archivo CSV cargado","Error inesperado",JOptionPane.ERROR_MESSAGE);
                 }

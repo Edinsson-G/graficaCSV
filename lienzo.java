@@ -3,8 +3,6 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -12,7 +10,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 public class lienzo extends JFrame{
-    private int xCliqueada,YCliqueada;
     public lienzo(csv pintura){
         super("pintura");
         setSize(pintura.ancho(),pintura.alto()+22);
@@ -25,7 +22,7 @@ public class lienzo extends JFrame{
         //crear un panel con los botones cerrar y exportar
         JPanel botones=new JPanel();
         botones.setSize(pintura.ancho(),22);
-        botones.setBackground(Color.BLUE);
+        botones.setBackground(new Color(204,204,204));
         
         //boton para cerrar
         JButton cerrar=new JButton("X");

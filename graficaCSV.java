@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.*;
@@ -11,19 +12,21 @@ public class graficaCSV{
     //objeto con la informacion del csv procesada
     private static csv pinturas;
     private static JTable tabla;
+    private static JScrollPane scroll;
+    private static JPanel superior;
+    private static JPanel panelTabla;
     public static void main(String[] args){
         JFrame ventIinicial=new JFrame("GraficaCSV+");
         ventIinicial.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        ventIinicial.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        ventIinicial.setSize(800,500);
         //texto de bienvenida
         JLabel mensajeBienvenida= new JLabel("<html>Bienvenido a graficaCSV+, para pintar carga un archivo CSV.</html>",SwingConstants.CENTER);
-
         //panel en el que se guardarán los botones de cargar y pintar
         JPanel botones=new JPanel();
         //boton para cargar archivo
-        JButton carguador=new JButton("carguar archivo");
+        JButton carguador=new JButton("Cargar archivo");
         //boton para generar figura
-        JButton pintar=new JButton("pintar");
+        JButton pintar=new JButton("Pintar");
         //funiconalidad del boton carguador
         carguador.addActionListener(
             e -> {
@@ -104,8 +107,23 @@ public class graficaCSV{
 
                         //evitar que se edite por medio de mouse o teclado
                         tabla.setDefaultEditor(Object.class, null);
-                        JScrollPane scroll=new JScrollPane(tabla);
-                        ventIinicial.getContentPane().add(BorderLayout.SOUTH,scroll);
+                        //eliminar la tabla actual si ya se habia cargado un archivo
+                        if(panelTabla!=null){
+                            ventIinicial.getContentPane().remove(panelTabla);
+                        }
+                        scroll=new JScrollPane(tabla);
+                        scroll.setAlignmentX(Component.CENTER_ALIGNMENT);
+                        //agregar scroll y un mensaje
+
+                        panelTabla=new JPanel();
+                        panelTabla.setLayout(new BoxLayout(panelTabla,BoxLayout.Y_AXIS));
+                        JLabel instrucciones=new JLabel("Puedes seleccionar el color una figura para cambiarlo.");
+                        instrucciones.setAlignmentX(Component.CENTER_ALIGNMENT);
+                        panelTabla.add(instrucciones);
+                        panelTabla.add(scroll);
+                        panelTabla.setBorder(new EmptyBorder(8,8,8,8));
+
+                        ventIinicial.getContentPane().add(BorderLayout.CENTER,panelTabla);
                         ventIinicial.revalidate();
                         ventIinicial.repaint();
                     }catch(Exception i){
@@ -117,26 +135,6 @@ public class graficaCSV{
         pintar.addActionListener(
             e -> {
                 if(pinturas!=null){
-                    /* 
-                    JFrame lienzo=new JFrame();
-                    lienzo.getContentPane().add(BorderLayout.CENTER,pinturas);
-                    //se le suma al tamano de la ventana el espacio que ocupa la barra de titulo
-                    lienzo.setSize(pinturas.ancho(),pinturas.alto());
-                    lienzo.setUndecorated(true);
-                    lienzo.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                    lienzo.setResizable(false);
-                    */
-                    //agregar movilidad a la ventana
-                    // lienzo.addMouseListener(
-                    //     //detectar evento de raton de arrastre
-                    //     new MouseAdapter() {
-                    //         public void mousePressed(MouseEvent e){
-                    //             mouseX=e.getX();
-                    //             mouseY=e.getY();
-                    //         }
-                    //     }
-                    // );
-                    // lienzo.setVisible(true);
                     new lienzo(pinturas);
                 }else{
                     JOptionPane.showMessageDialog(null,"Error inesperado, no se encontró ningún archivo CSV cargado","Error inesperado",JOptionPane.ERROR_MESSAGE);
@@ -149,9 +147,21 @@ public class graficaCSV{
         botones.add(carguador);
         botones.add(pintar);
 
+        //agreguar mensaje de bienvenida y botones a un panel
+        superior=new JPanel();
+        superior.setLayout(new BoxLayout(superior,BoxLayout.Y_AXIS));
+        mensajeBienvenida.setAlignmentX(Component.CENTER_ALIGNMENT);
+        botones.setAlignmentX(Component.CENTER_ALIGNMENT);
+        superior.add(mensajeBienvenida);
+        superior.add(botones);
+        superior.setBorder(new EmptyBorder(8,8,8,8));
+        
+
+        
+        
         //agregar componentes a la ventana y hacer visible
-        ventIinicial.getContentPane().add(BorderLayout.NORTH,mensajeBienvenida);
-        ventIinicial.getContentPane().add(BorderLayout.CENTER,botones);
+        ventIinicial.getContentPane().add(BorderLayout.NORTH,superior);
+        //ventIinicial.getContentPane().add(BorderLayout.CENTER,panelTabla);
         ventIinicial.setVisible(true);
     }
     private static List<Color> colores(){
